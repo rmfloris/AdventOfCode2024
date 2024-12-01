@@ -43,7 +43,7 @@ fi
 
 # Store the day number from the first argument
 DAY=$1
-YEAR=2023
+YEAR=2024
 
 # Source directory for files to be copied
 BASE_SOURCE_DIR="./BaseFiles"
