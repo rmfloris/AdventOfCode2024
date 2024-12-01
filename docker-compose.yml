@@ -1,31 +1,9 @@
 services:
-  php:
-    build: ./docker/php
-    ports:
-      - "8080:80"
-    volumes:
-      - ./src:/var/www/html/
-    restart: unless-stopped
   phpunit:
-    image: php:8.2-cli
+    build:
+      context: .
+      dockerfile: docker/phpunit/Dockerfile
+    container_name: AdventOfCode
     volumes:
       - .:/app
-    working_dir: /app
-    entrypoint: vendor/bin/phpunit
-  composer:
-    build: ./docker/composer
-    environment:
-      - COMPOSER_CACHE_DIR=/app/.cache/composer
-    volumes:
-      - .:/app
-  phpcli:
-    image: php:8.2-cli
-    volumes:
-      - .:/app
-    working_dir: /app
-  phpstan:
-    build: ./docker/phpCli
-    volumes:
-      - .:/app
-    working_dir: /app
-    entrypoint: vendor/bin/phpstan
+    tty: true  # Keeps the container running for interactive use

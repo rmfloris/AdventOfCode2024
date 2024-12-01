@@ -1,11 +1,9 @@
 # Advent of Code 2024
 
 # How to....
-- Install dependencies via `sudo composer install`
-- create alias `alias dcr='docker-compose run'`
-- Run tests via `dcr phpunit` to run them all
-- Run specific tests via `dcr phpunit tests/DayX/dayXTest.php`
-- Run code quality via `dcr phpstan`
+- build the container by running `docker-compose build --no-cache`
+- login into the container `docker exec -it AdventOfCode bash`
+- once in the container `phpunit` and `phpstan` are available to run tests
 
 For daily creation of the files and setup:
 - ./createDay.sh #dayNumber

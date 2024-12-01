@@ -43,7 +43,7 @@ abstract class Day {
         // return file($inputFilename, FILE_SKIP_EMPTY_LINES | FILE_IGNORE_NEW_LINES);
     }
 
-    protected function getInputFilename(string $inputFilename = NULL): string
+    protected function getInputFilename(?string $inputFilename = NULL): string
     {
         if ($this->getOption('test')) {
             return __DIR__."/../input/sample/day{$this->dayNumber}.txt";
