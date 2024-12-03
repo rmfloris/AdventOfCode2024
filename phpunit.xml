@@ -6,6 +6,7 @@
         testdox="true"
         colors="true" 
         displayDetailsOnTestsThatTriggerDeprecations="true"
+        displayDetailsOnTestsThatTriggerWarnings="true"
         >
 
   <php>
