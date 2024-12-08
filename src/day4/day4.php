@@ -23,7 +23,7 @@ class Day4 extends Day {
         $this->height = count($this->inputData);
         $this->queue = new Queue();
 
-        for ($y = 0; $y < $this->height; $y++) {
+        for ($y = 0; $y < $this->height; $y++) {    
             for ($x = 0; $x < $this->width; $x++) {
                 $this->map[$x][$y] = $this->inputData[$y][$x];
                 $this->queue->insert([Helper::getKey($x, $y), $this->inputData[$y][$x]]);
