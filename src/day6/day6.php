@@ -13,6 +13,7 @@ class Day6 extends Day {
     private array $direction = ["dX" => 0, "dY" => -1];
     private array $visitedLocations = [];
     private const BLOCKER = '#';
+    private array $extraObstructions = [];
 
 
     protected function loadData(): void {
@@ -26,23 +27,23 @@ class Day6 extends Day {
                 $this->map[$x][$y] = $this->inputData[$y][$x];
                 if($this->inputData[$y][$x] == "^") {
                     $this->guardLocation = ["x" => $x, "y" => $y];
-                    $this->addVisitedLocation($x, $y);
+                    $this->addVisitedLocation($x, $y, $this->direction);
                 }
             }
         }
     }
 
-    private function addVisitedLocation($x, $y) {
-        $this->visitedLocations[Helper::getKey($x, $y)] = 1;
+    private function addVisitedLocation(int $x, int $y) {
+        $this->visitedLocations[Helper::getKey($x, $y)] = $this->direction;
+    }
+
+    private function getVisitedLocation(int $x, int $y) {
+        return isset($this->visitedLocations[Helper::getKey($x, $y)]) ? $this->visitedLocations[Helper::getKey($x, $y)] : null;
     }
 
     private function guardPatrol() {
-        // $i=0;
         while($this->guardIsOnMapWithNextMove()) {
             $this->moveGuard();
-            // if($i>100) break;
-            // $i++;
-
         }
     }
 
@@ -52,20 +53,37 @@ class Day6 extends Day {
         $nextX = $this->guardLocation["x"]+$dX;
         $nextY = $this->guardLocation["y"]+$dY;
 
+        $this->willNewBlockerCreateLoop($this->guardLocation["x"], $this->guardLocation["y"]);
+
         if($this->map[$nextX][$nextY] != SELF::BLOCKER) {
             $this->guardLocation = ["x" => $nextX, "y" => $nextY];
             $this->addVisitedLocation($nextX, $nextY);
             return;
         } 
         if($this->map[$nextX][$nextY] == SELF::BLOCKER) {
-            $this->rotateDirectionClockwise();
+            $this->direction = $this->rotateDirectionClockwise();
             return;
         } 
     }
 
+    private function willNewBlockerCreateLoop(int $x, int $y) {
+        echo "check loop creation: ". $x ." - ". $y .", dir: \n";
+        if($direction = $this->getVisitedLocation($x, $y)) {
+            echo "Prev Direction: ";
+            print_r($direction);
+            echo "\n";
+            if($this->rotateDirectionClockwise() == $direction) {
+                echo "Add blocker\n";
+                print_r($this->rotateDirectionClockwise());
+
+                $this->extraObstructions[Helper::getKey($x, $y)] = 1;
+            }
+        }
+    }
+
     function rotateDirectionClockwise() {
         [$dX, $dY] = $this->getCurrentDirection();
-        $this->direction = [ "dX" => -$dY, "dY" => $dX];
+        return [ "dX" => -$dY, "dY" => $dX];
     }
 
     function getCurrentDirection() {
@@ -90,7 +108,8 @@ class Day6 extends Day {
     }
 
     public function part2(): int {
-        return 1;
+        $this->guardPatrol();
+        return count($this->extraObstructions);
     }
     
 }

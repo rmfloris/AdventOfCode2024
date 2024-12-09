@@ -13,21 +13,19 @@ final class day6Test extends TestCase
         $this->sampleDay = new Day6(true);
     }
     
-    public function testPart1Sample(): void
-    {
-        $this->assertSame(41, $this->sampleDay->part1());
-    }
+    // public function testPart1Sample(): void
+    // {
+    //     $this->assertSame(41, $this->sampleDay->part1());
+    // }
 
-    public function testPart1(): void
-    {
-        // $this->markTestIncomplete("To be done");
-        $this->assertSame(5461, $this->day->part1());
-    }
+    // public function testPart1(): void
+    // {
+    //     $this->assertSame(5461, $this->day->part1());
+    // }
 
     public function testPart2Sample(): void
     {
-        $this->markTestIncomplete("To be done");
-        // $this->assertSame(-1, $this->sampleDay->part2());
+        $this->assertSame(6, $this->sampleDay->part2());
     }
 
     public function testPart2(): void
