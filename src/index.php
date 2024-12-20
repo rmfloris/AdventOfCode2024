@@ -1,10 +1,12 @@
 <?php
+
+use day15\Day15;
+
 include 'autoload.php';
 
-use common\CreateMap;
 
-$map = new CreateMap;
-$map->createMapWithValue(2,3,".");
-$map->setPointValue(1,2, "x");
-echo $map->getPointValue(1,2);
-$map->printMap();
+$day = new Day15(true);
+echo "<br>Game Total: #". $day->part1();
+
+echo "memory: ". $day->getMemoryUsage() ."<br>";
+echo "time: ". $day->getElapsedTime();

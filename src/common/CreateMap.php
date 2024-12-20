@@ -4,49 +4,57 @@ namespace common;
 
 use InvalidArgumentException;
 
-use function PHPUnit\Framework\throwException;
-
 class CreateMap {
 
     private array $map = [];
 
+    public function createMap(int $rows, int $columns): void {
+        $this->map = array_fill(0, $rows, array_fill(0, $columns, null));
+    }
+
     public function createMapWithValue(int $rows, int $columns, int|string $value): void {
         $this->map = array_fill(0, $rows, array_fill(0, $columns, $value));
-        print_r($this->map);
     }
 
-    public function setPointValue(int $x, int $y, $value) {
-        if($this->isInvalidCoordinate($x, $y)) throw new InvalidArgumentException("Invalid map coordinates");
+    public function setPointValue(int $row, int $column, $value) {
+        if($this->isInvalidCoordinate($row, $column)) throw new InvalidArgumentException("Invalid map coordinates");
         
-        $this->map[$x][$y] = $value;
+        $this->map[$row][$column] = $value;
     }
 
-    public function getPointValue(int $x, int $y) {
-        if($this->isInvalidCoordinate($x, $y)) throw new InvalidArgumentException("Invalid map coordinates");
-
-        return $this->map[$x][$y];
+    public function addRowWithValue(int $row, array $value) {
+        if(!$this->isValidRow($row)) throw new InvalidArgumentException("Invalid row");
+        
+        $this->map[$row] = $value;
     }
 
-    private function isInvalidCoordinate(int $x, int $y): bool {
-        if(!isset($this->map[$x])) echo "row not found";
-        if(!isset($this->map[$x][$y])) echo "cell not found";
-        return !isset($this->map[$x]) && !isset($this->map[$x][$y]);
+    public function getPointValue(int $row, int $column) {
+        if($this->isInvalidCoordinate($row, $column)) throw new InvalidArgumentException("Invalid map coordinates");
+        return $this->map[$row][$column];
     }
 
-    public function getRow($x) {
-        if (!isset($map[$x])) {
+    public function isInvalidCoordinate(int $row, int $column): bool {
+        return !$this->isValidRow($row) || !isset($this->map[$row][$column]);
+    }
+
+    private function isValidRow($row) {
+        return isset($this->map[$row]);
+    }
+
+    public function getRow($row) {
+        if (!$this->isValidRow($row)) {
             throw new InvalidArgumentException("Row index out of bounds");
         }
-        return $this->map[$x];
+        return $this->map[$row];
     }
 
-    public function getColumn($y) {
+    public function getColumn($inputColumn) {
         $column = [];
         foreach ($this->map as $row) {
-            if (!isset($row[$y])) {
+            if (!isset($row[$inputColumn])) {
                 throw new InvalidArgumentException("Column index out of bounds");
             }
-            $column[] = $row[$y];
+            $column[] = $row[$inputColumn];
         }
         return $column;
     }

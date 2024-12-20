@@ -10,7 +10,11 @@ class Queue {
     }
 
     /**
-    * @param array<mixed> $option
+     * use to add new entries into the queue. Optional with a value which is being used to sort the queue.
+     * @param array<mixed> $option
+     * The options that need to the added to the queue.
+     * @param int $value [optional]
+     * used to sort the entries in the queue.
     */
     public function insert($option, ?int $value = NULL) {
         array_push($this->queue, [
@@ -29,6 +33,7 @@ class Queue {
     }
 
     /**
+     * Picks the last entry in the queue and returns its input as an array.
      * @return array<mixed>
      */
     public function pop(): array|NULL {
@@ -39,6 +44,7 @@ class Queue {
     }
 
     /**
+     * Picks the first entry in the queue and returns its input as an array.
      * @return array<mixed>
      */
 
