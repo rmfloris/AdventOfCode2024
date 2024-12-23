@@ -2,7 +2,7 @@
 
 namespace day16;
 
-use common\CreateMap;
+use common\Map;
 use common\Day;
 use common\Position;
 use SplPriorityQueue;
@@ -15,7 +15,7 @@ enum CellType: string {
 
 
 class Day16 extends Day {
-    private CreateMap $map;
+    private Map $map;
     private Position $startPosition;
     private array $visited = [];
     private array $directions = [
@@ -29,7 +29,7 @@ class Day16 extends Day {
 
     protected function loadData(): void {
         parent::loadData();
-        $this->map = new CreateMap();
+        $this->map = new Map();
 
         $this->map->createMapWithValue(count($this->inputData), strlen($this->inputData[0]), ".");
 
@@ -44,13 +44,12 @@ class Day16 extends Day {
 
     private function startMoving() {
         $moves = new SplPriorityQueue();
-        // row, col, path
+
         // State: [row, col, direction, score, path]
         // Starting facing east (direction 0)
         $path = $this->startPosition->getPosition();
         $moves->insert([$path[0], $path[1], 0, 0, [$path]], 0);
 
-        $i = 0;
         while(!$moves->isEmpty()) {
             [$row, $column, $direction, $score, $path] = $moves->extract();
             
@@ -64,7 +63,6 @@ class Day16 extends Day {
                 return ['score' => $score, 'path' => $path];
             }
 
-            // check valid moves
             for ($newDirection = 0; $newDirection < 4; $newDirection++) {
                 [$dX, $dY] = $this->directions[$newDirection];
                 $newRow = $row + $dY;
@@ -78,14 +76,8 @@ class Day16 extends Day {
                     $newPath[] = [$newRow, $newColumn];
                     
                     $moves->insert([$newRow, $newColumn, $newDirection, $newScore, $newPath], -$newScore);
-                    // echo "adding: ". $newRow ." - ". $newColumn ."\n";
                 }
             }
-            
-            // $i++;
-            // if($i == 5000) {
-            //     exit;
-            // }
         }
     }
 

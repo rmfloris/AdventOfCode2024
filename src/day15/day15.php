@@ -1,13 +1,13 @@
 <?php
 namespace day15;
 
-use common\CreateMap;
+use common\Map;
 use common\Day;
 use common\Helper;
 use common\Queue;
 
 class Day15 extends Day {
-    private CreateMap $map;
+    private Map $map;
     private Queue $moves;
     private int $height;
     private string $currentLocationRobot = "";
@@ -23,7 +23,7 @@ class Day15 extends Day {
     private const EMPTY = ".";
 
     protected function loadData(): void {
-        $this->map = new CreateMap();
+        $this->map = new Map();
         $this->moves = new Queue();
 
         $parts = preg_split('/\n\s*\n/', $this->getInputFile());
