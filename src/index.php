@@ -1,12 +1,13 @@
 <?php
 
-use day16\Day16;
+use day19\Day19;
 
 include 'autoload.php';
 
 
-$day = new Day16(true);
-echo "Game Total: #". $day->part1();
+$day = new Day19();
+// $day = new Day19(true);
+echo "Game Total: # ". $day->part1();
 
 echo "\n";
 echo "memory: ". $day->getMemoryUsage() ."\n";

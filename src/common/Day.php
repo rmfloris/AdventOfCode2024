@@ -39,7 +39,7 @@ abstract class Day {
     protected function getArrayFromInputFile(?string $inputFilename = NULL): array
     {
         $inputFilename = $this->getInputFilename($inputFilename);
-        return file($inputFilename, FILE_IGNORE_NEW_LINES);
+        return array_map('trim', file($inputFilename, FILE_IGNORE_NEW_LINES));
         // return file($inputFilename, FILE_SKIP_EMPTY_LINES | FILE_IGNORE_NEW_LINES);
     }
 
@@ -93,7 +93,7 @@ abstract class Day {
     protected function getInputFile(): string
     {
         $inputFilename = $this->getInputFilename();
-        return file_get_contents($inputFilename);
+        return trim(file_get_contents($inputFilename));
     }
 
     abstract protected function part1(): int|string;
