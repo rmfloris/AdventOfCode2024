@@ -67,14 +67,14 @@ class Day6 extends Day {
     }
 
     private function willNewBlockerCreateLoop(int $x, int $y) {
-        echo "check loop creation: ". $x ." - ". $y .", dir: \n";
+        // echo "check loop creation: ". $x ." - ". $y .", dir: \n";
         if($direction = $this->getVisitedLocation($x, $y)) {
-            echo "Prev Direction: ";
-            print_r($direction);
-            echo "\n";
+            // echo "Prev Direction: ";
+            // print_r($direction);
+            // echo "\n";
             if($this->rotateDirectionClockwise() == $direction) {
-                echo "Add blocker\n";
-                print_r($this->rotateDirectionClockwise());
+                // echo "Add blocker\n";
+                // print_r($this->rotateDirectionClockwise());
 
                 $this->extraObstructions[Helper::getKey($x, $y)] = 1;
             }
