@@ -23,7 +23,7 @@ class Day5 extends Day {
             $this->updates[] = explode(",", $this->inputData[$updateId]);
         }
         
-        // print_r($this->rules);
+        print_r($this->rules);
         // print_r($this->updates);
     }
 
@@ -54,18 +54,16 @@ class Day5 extends Day {
             $middle = round(count($valid) / 2, 0,PHP_ROUND_HALF_DOWN);
             $sum += $valid[$middle];
 
-            print_r($valid);
-            echo "middle: ". $middle ."\n";
+            // print_r($valid);
+            // echo "middle: ". $middle ."\n";
         }
         return $sum;
     }
 
     public function part1(): int {
         $this->findCode();
-        print_r($this->validUpdates);
         $result = $this->calculateMiddlePage();
         
-        // return 1;
         return $result;
     }
 

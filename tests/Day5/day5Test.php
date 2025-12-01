@@ -20,7 +20,7 @@ final class day5Test extends TestCase
 
     public function testPart1(): void
     {
-        $this->assertSame(-1, $this->day->part1());
+        $this->assertSame(6384, $this->day->part1());
     }
 
     // public function testPart2Sample(): void
