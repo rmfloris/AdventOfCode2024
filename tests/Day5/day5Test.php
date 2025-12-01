@@ -9,21 +9,19 @@ final class day5Test extends TestCase
 
     protected function setUp(): void
     {
-        // $this->day = new Day5();
+        $this->day = new Day5();
         $this->sampleDay = new Day5(true);
     }
     
     public function testPart1Sample(): void
     {
-        // $this->markTestIncomplete("To be done");
         $this->assertSame(143, $this->sampleDay->part1());
     }
 
-    // public function testPart1(): void
-    // {
-    //     $this->markTestIncomplete("To be done");
-    //     // $this->assertSame(-1, $this->day->part1());
-    // }
+    public function testPart1(): void
+    {
+        $this->assertSame(-1, $this->day->part1());
+    }
 
     // public function testPart2Sample(): void
     // {
