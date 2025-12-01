@@ -6,13 +6,17 @@ use common\Day;
 
 class Day5 extends Day {
     private $validUpdates = [];
+    private $invalidUpdates = [];
     private $rules = [];
+    private $rulesOrginal = [];
     private $updates = [];
 
     protected function loadData(): void {
         parent::loadData();
        
         $break = array_search("", $this->inputData, true);
+
+        $this->rulesOrginal = array_flip(array_slice($this->inputData,0, $break));
 
         for($ruleId=0; $ruleId<$break; $ruleId++) {
             [$ruleX, $ruleY] = explode("|", $this->inputData[$ruleId]);
@@ -22,24 +26,22 @@ class Day5 extends Day {
         for($updateId=$break+1; $updateId<count($this->inputData); $updateId++) {
             $this->updates[] = explode(",", $this->inputData[$updateId]);
         }
-        
-        print_r($this->rules);
-        // print_r($this->updates);
     }
 
-    private function findCode() {
-        forEach($this->updates as $key => $update) {
+    private function checkUpdates() {
+        foreach($this->updates as $key => $update) {
             $validUpdate = true;
 
-            forEach($update as $pageId => $page) {
+            foreach($update as $pageId => $page) {
                 if($pageId === 0) continue;
 
                 if(!array_key_exists($page, $this->rules)) continue;
                 
                 $ruleList = $this->rules[$page];
-                forEach($ruleList as $rule) {
-                    if(array_search($rule, array_slice($update,0, $pageId)) !== false) {
+                foreach($ruleList as $rule) {
+                    if(array_search($rule, array_slice($update, 0, $pageId)) !== false) {
                         $validUpdate = false;
+                        $this->invalidUpdates[$key] = $update;
                         break;
                     } 
                 }                 
@@ -48,27 +50,46 @@ class Day5 extends Day {
         }
     }
 
-    private function calculateMiddlePage() {
+    private function calculateMiddlePage($inputs) {
         $sum = 0;
-        forEach($this->validUpdates as $valid) {
-            $middle = round(count($valid) / 2, 0,PHP_ROUND_HALF_DOWN);
-            $sum += $valid[$middle];
-
-            // print_r($valid);
-            // echo "middle: ". $middle ."\n";
+        foreach($inputs as $input) {
+            $middle = round(count($input) / 2, 0,PHP_ROUND_HALF_DOWN);
+            $sum += $input[$middle];
         }
         return $sum;
     }
 
+    private function makeInvalidValid() {
+        foreach($this->invalidUpdates as $key => $invalid) {
+            usort($invalid, function($a, $b) {
+                if(isset($this->rulesOrginal["$a|$b"])) {
+                    return -1;
+                }
+                if(isset($this->rulesOrginal["$b|$a"])) {
+                    return 1;
+                }
+    
+                return 0;
+            });
+
+            $this->invalidUpdates[$key] = $invalid;
+        }
+    }
+
     public function part1(): int {
-        $this->findCode();
-        $result = $this->calculateMiddlePage();
+        $this->checkUpdates();
+        $result = $this->calculateMiddlePage($this->validUpdates);
         
         return $result;
     }
 
     public function part2(): int {
-        return 1;
+        $this->checkUpdates();
+        $this->makeInvalidValid();
+
+        $result = $this->calculateMiddlePage($this->invalidUpdates);
+        
+        return $result;
     }
     
 }
